@@ -1,0 +1,50 @@
+@!(model)
+<style type="text/css">
+    .darker
+    {
+        background-color:rgba(0,0,0,0.2);
+    }
+    .forecast
+    {
+        margin:10px;
+    }
+    .forecast:hover
+    {
+        background-color:rgba(0,0,0,0.4);
+    }
+    
+    .fullheight
+    {
+        height:100%;
+    }
+</style>
+<div style="background-image:url('/weather/background'); background-position:right top; background-size:cover; background-repeat:no-repeat; position:fixed; width:100%" class="row fullheight">
+</div>
+<div class="fullheight darker row" style="color:white; font-size:larger">
+	<div class="row col-md-12">
+		<h1><div class="label">@(model.now.display_location.city)</div></h1>
+		<div class="col-md-4" style="font-size:larger">
+			<h1 style="font-size:72pt">@(model.now.temp_c)<sup>°C</sup></h1>
+			@(model.now.weather)
+
+			<h2>Ressenti @(model.now.feelslike_c)<sup>°C</sup></h2>
+		</div>
+		<div class="col-md-2"><span class="label">Haute</span><h3>@(model.forecast.high.celsius)<sup>°C</sup></h3></div>
+		<div class="col-md-2"><span class="label">Basse</span><h3>@(model.forecast.low.celsius)<sup>°C</sup></h3></div>
+		<div class="col-md-2"><span class="label">Risque de pluie</span><h3>@(model.forecast.pop)%</h3></div>
+    	@for(var i=1;i<model.forecasts.length;i++)
+    	{
+        	<div class="forecast col-md-2 darker">
+        	    <img class="pull-right" src="@('/assets/weather/img/'+model.forecasts[i].icon+'.svg')" />
+        	    <div style="height:100px">
+        	    @(model.forecasts[i].date.weekday)
+        	    @(model.forecasts[i].date.day)
+        	    <h3>@(model.forecasts[i].low.celsius)<sup>°C</sup>/@(model.forecast.high.celsius)<sup>°C</sup></h3>
+        	    </div>
+        	    <span class="" style="font-size:smaller">@(model.forecasts[i].conditions)</span>
+        	    <br />
+        	    <span style="font-size:smaller" class="glyphicon glyphicon-tint"> @(model.forecasts[i].pop)%</span>
+        	</div>
+    	}
+	</div>
+</div>
