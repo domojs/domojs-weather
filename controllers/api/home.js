@@ -6,11 +6,15 @@ var getFromCache=function(method, callback)
 {
 	var cacheData= function(data)
 		{
-			$('fs').writeFile(fileName, JSON.stringify(data), function(err){
-				if(err)
-					console.log(err);
-				callback(data);
-			});
+            $('fs').exists(baseCachePath, function(exists){
+                if(!exists)
+                    $('fs').mkdirSync(baseCachePath);
+                $('fs').writeFile(fileName, JSON.stringify(data), function(err){
+                    if(err)
+                        console.log(err);
+                    callback(data);
+                });
+            })
 		};
 	var position=$.settings('position');
 	if(!position)
