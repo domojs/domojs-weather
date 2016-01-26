@@ -30,17 +30,23 @@ var getFromCache=function(method, callback)
 				{
 					$('fs').readFile(fileName, function(err, data){
 						if(err)
-							$.getJSON(url, cacheData);
+							$.getJSON(url, cacheData).on('error', function(err){
+							    console.log(err);
+							});
 						callback(JSON.parse(data));
 					})
 				}
 				else
-					$.getJSON(url, cacheData);
+					$.getJSON(url, cacheData).on('error', function(err){
+					    console.log(err);
+					});
 
 			})
 		}
 		else
-			$.getJSON(url, cacheData);
+			$.getJSON(url, cacheData).on('error', function(err){
+			    console.log(err);
+			});
 
 	});
 }
