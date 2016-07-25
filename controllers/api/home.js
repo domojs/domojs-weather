@@ -1,6 +1,4 @@
-
 var baseCachePath='./modules/weather/cache/';
-
 
 var getFromCache=function(method, callback)
 {
@@ -33,7 +31,15 @@ var getFromCache=function(method, callback)
 							$.getJSON(url, cacheData).on('error', function(err){
 							    console.log(err);
 							});
-						callback(JSON.parse(data));
+							try{
+						        callback(JSON.parse(data));
+							}
+							catch(e)
+        					{
+        					    $.getJSON(url, cacheData).on('error', function(err){
+    							    console.log(err);
+    							});
+        					}
 					})
 				}
 				else
@@ -73,7 +79,7 @@ module.exports={
 	},
 	forecast:function(id, callback){
 		forecast(function(data){
-			if(!isNaN(data))
+			if(!isNaN(data) || !data || !data.forecast || !data.forecast.simpleforecast || !data.forecast.simpleforecast)
 				callback(data);
 			else if(typeof(id)!='undefined')
 				callback(data.forecast.simpleforecast.forecastday[id])
